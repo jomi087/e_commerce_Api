@@ -7,7 +7,7 @@ export const signToken = (
 ): string => {
   const secret: Secret = env.JWT_SECRET;
   const defaultOptions: SignOptions = {
-    expiresIn: env.JWT_EXPIRES_IN as SignOptions['expiresIn'],
+    expiresIn: env.AUTH_SESSION_TOKEN_EXPIRY as SignOptions['expiresIn'],
   };
   return jwt.sign(payload, secret, { ...defaultOptions, ...options });
 };

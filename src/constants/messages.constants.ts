@@ -25,11 +25,13 @@ export const ERROR_MESSAGES = {
   UNAUTHORIZED: 'Unauthorized access',
 
   //Auth
+  ACCOUNT_INACTIVE: 'Your account is inactive',
   INVALID_CREDENTIALS: 'Invalid Credentials',
+  AUTH_TOKEN_REQUIRED: 'Authentication token is required',
+
+  //user
   USER_NOT_FOUND: 'User not found',
   USER_EXISTS: 'User already exists',
-
-  //Project
 
   //common
   INTERNAL_SERVER_ERROR: 'Internal server error',
