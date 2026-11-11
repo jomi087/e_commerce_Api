@@ -3,6 +3,7 @@ import { authService } from './auth.service.js';
 import { env } from '../../config/env.js';
 import { SUCCESS_MESSAGES } from '../../constants/messages.constants.js';
 import { sendSuccess } from '../../utils/ApiResponse.js';
+import { LoginInput, RegisterInput } from './auth.validation.js';
 
 export class AuthController {
   private setSessionCookie(res: Response, token: string): void {
@@ -16,15 +17,18 @@ export class AuthController {
   }
 
   register = async (req: Request, res: Response): Promise<void> => {
-    const { userInfo, token } = await authService.register(req.body);
+    const input = req.validated?.body as RegisterInput;
 
+    const { userInfo, token } = await authService.register(input);
     this.setSessionCookie(res, token);
 
     sendSuccess(res, 201, SUCCESS_MESSAGES.REGISTER_SUCCESS, userInfo);
   };
 
   login = async (req: Request, res: Response): Promise<void> => {
-    const { userInfo, token } = await authService.login(req.body);
+    const input = req.validated?.body as LoginInput;
+
+    const { userInfo, token } = await authService.login(input);
 
     this.setSessionCookie(res, token);
 

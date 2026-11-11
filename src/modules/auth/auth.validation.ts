@@ -31,7 +31,6 @@ export const registerSchema = loginSchema.extend({
     .min(1, 'Name is required')
     .min(NAME_MIN_LENGTH, 'Name must be at least 3 characters')
     .max(NAME_MAX_LENGTH, 'Name cannot exceed 50 characters')
-    // .regex(/^[A-Za-z\s]+$/, 'Name can only contain letters and spaces'),
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;
