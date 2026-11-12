@@ -43,23 +43,23 @@ This backend API was engineered as a robust foundation for e-commerce platforms.
 
 ## 2. Technology Stack
 
-| Category | Technology / Library | Version | Purpose |
-| :--- | :--- | :--- | :--- |
-| **Runtime** | [Node.js](https://nodejs.org/) | `>= 20.x` (Tested on `v24.21.0`) | JavaScript runtime environment |
-| **Language** | [TypeScript](https://www.typescriptlang.org/) | `^5.9.3` | Static typing, ECMAScript 2022 target, NodeNext modules |
-| **Framework** | [Express](https://expressjs.com/) | `^5.3.0` | HTTP application server |
-| **Database** | [MongoDB](https://www.mongodb.com/) | `>= 6.0` | Document database (Requires Replica Set for transactions) |
-| **ODM** | [Mongoose](https://mongoosejs.com/) | `^9.12.1` | Object Data Modeling and schema validation |
-| **Validation** | [Zod](https://zod.dev/) | `^4.6.7` | Runtime type validation for body, query, params, and env |
-| **Security** | [Helmet](https://helmetjs.github.io/) | `^8.3.0` | Security headers configuration |
-| **CORS** | [cors](https://www.npmjs.com/package/cors) | `^2.8.6` | Cross-Origin Resource Sharing handling |
-| **Cryptography**| [bcrypt](https://www.npmjs.com/package/bcrypt) | `^6.0.0` | One-way password hashing (salt rounds: 10) |
-| **Tokens** | [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) | `^9.0.3` | JWT generation and cryptographic verification |
-| **Cookies** | [cookie-parser](https://www.npmjs.com/package/cookie-parser) | `^1.4.7` | HTTP request cookie parsing |
-| **Logging** | [Winston](https://github.com/winstonjs/winston) | `^3.19.0` | Multi-transport log management & file rotation |
-| **HTTP Logger**| [Morgan](https://github.com/expressjs/morgan) | `^1.12.1` | HTTP request lifecycle logging |
-| **Dev Execution**| [tsx](https://github.com/privatenumber/tsx) | `^4.23.15` | Zero-config TypeScript execution with watch mode |
-| **Code Quality**| [ESLint](https://eslint.org/) & [Prettier](https://prettier.io/) | `^10.x` / `^3.x` | Linting and code formatting rules |
+| Category          | Technology / Library                                             | Version                          | Purpose                                                   |
+| :---------------- | :--------------------------------------------------------------- | :------------------------------- | :-------------------------------------------------------- |
+| **Runtime**       | [Node.js](https://nodejs.org/)                                   | `>= 20.x` (Tested on `v24.21.0`) | JavaScript runtime environment                            |
+| **Language**      | [TypeScript](https://www.typescriptlang.org/)                    | `^5.9.3`                         | Static typing, ECMAScript 2022 target, NodeNext modules   |
+| **Framework**     | [Express](https://expressjs.com/)                                | `^5.3.0`                         | HTTP application server                                   |
+| **Database**      | [MongoDB](https://www.mongodb.com/)                              | `>= 6.0`                         | Document database (Requires Replica Set for transactions) |
+| **ODM**           | [Mongoose](https://mongoosejs.com/)                              | `^9.12.1`                        | Object Data Modeling and schema validation                |
+| **Validation**    | [Zod](https://zod.dev/)                                          | `^4.6.7`                         | Runtime type validation for body, query, params, and env  |
+| **Security**      | [Helmet](https://helmetjs.github.io/)                            | `^8.3.0`                         | Security headers configuration                            |
+| **CORS**          | [cors](https://www.npmjs.com/package/cors)                       | `^2.8.6`                         | Cross-Origin Resource Sharing handling                    |
+| **Cryptography**  | [bcrypt](https://www.npmjs.com/package/bcrypt)                   | `^6.0.0`                         | One-way password hashing (salt rounds: 10)                |
+| **Tokens**        | [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)       | `^9.0.3`                         | JWT generation and cryptographic verification             |
+| **Cookies**       | [cookie-parser](https://www.npmjs.com/package/cookie-parser)     | `^1.4.7`                         | HTTP request cookie parsing                               |
+| **Logging**       | [Winston](https://github.com/winstonjs/winston)                  | `^3.19.0`                        | Multi-transport log management & file rotation            |
+| **HTTP Logger**   | [Morgan](https://github.com/expressjs/morgan)                    | `^1.12.1`                        | HTTP request lifecycle logging                            |
+| **Dev Execution** | [tsx](https://github.com/privatenumber/tsx)                      | `^4.23.15`                       | Zero-config TypeScript execution with watch mode          |
+| **Code Quality**  | [ESLint](https://eslint.org/) & [Prettier](https://prettier.io/) | `^10.x` / `^3.x`                 | Linting and code formatting rules                         |
 
 ---
 
@@ -189,21 +189,27 @@ Ensure your MongoDB instance is running and accessible via your configured conne
 ### 5. Running the Application
 
 - **Development Mode** (with live hot reload via `tsx watch`):
+
   ```bash
   npm run dev
   ```
+
   The server starts on `http://localhost:<PORT>` with `NODE_ENV=development`.
 
 - **Build for Production**:
+
   ```bash
   npm run build
   ```
+
   Compiles TypeScript source code to JavaScript in the `dist/` directory.
 
 - **Start in Production Mode**:
+
   ```bash
   npm run start
   ```
+
   Executes `dist/server.js` with `NODE_ENV=production`.
 
 - **Linting and Code Formatting**:
@@ -220,15 +226,15 @@ Ensure your MongoDB instance is running and accessible via your configured conne
 
 Environment variables are validated on application startup via Zod in `src/config/env.ts`. If any required variable is missing or malformed, the application logs the validation error and terminates execution immediately.
 
-| Variable | Type | Default / Example | Description |
-| :--- | :--- | :--- | :--- |
-| `NODE_ENV` | String | `development` | Environment mode (`development` or `production`). Injected via `cross-env`. |
-| `PORT` | Number | `5000` | Port on which the Express server listens. |
-| `DB_URI` | String | `mongodb://localhost:27017/e-commerce` | MongoDB connection URI string (must include replica set support). |
-| `ALLOWED_ORIGINS` | String | `http://localhost:5173` | Comma-separated list of valid URLs allowed by CORS. Must parse as valid URLs. |
-| `JWT_SECRET` | String | `your_secure_jwt_secret` | Secret key used to sign and verify JSON Web Tokens. |
-| `AUTH_SESSION_TOKEN_EXPIRY` | String | `1d` | Expiration window for JWT tokens (e.g., `1d`, `7d`, `12h`). |
-| `AUTH_SESSION_COOKIE_AGE` | Number | `86400000` | Max age of the `authSessionToken` cookie in milliseconds (`86400000` = 24 hours). |
+| Variable                    | Type   | Default / Example                      | Description                                                                       |
+| :-------------------------- | :----- | :------------------------------------- | :-------------------------------------------------------------------------------- |
+| `NODE_ENV`                  | String | `development`                          | Environment mode (`development` or `production`). Injected via `cross-env`.       |
+| `PORT`                      | Number | `5000`                                 | Port on which the Express server listens.                                         |
+| `DB_URI`                    | String | `mongodb://localhost:27017/e-commerce` | MongoDB connection URI string (must include replica set support).                 |
+| `ALLOWED_ORIGINS`           | String | `http://localhost:5173`                | Comma-separated list of valid URLs allowed by CORS. Must parse as valid URLs.     |
+| `JWT_SECRET`                | String | `your_secure_jwt_secret`               | Secret key used to sign and verify JSON Web Tokens.                               |
+| `AUTH_SESSION_TOKEN_EXPIRY` | String | `1d`                                   | Expiration window for JWT tokens (e.g., `1d`, `7d`, `12h`).                       |
+| `AUTH_SESSION_COOKIE_AGE`   | Number | `86400000`                             | Max age of the `authSessionToken` cookie in milliseconds (`86400000` = 24 hours). |
 
 ### Example `.env.development` Template
 
@@ -248,6 +254,7 @@ AUTH_SESSION_COOKIE_AGE=86400000
 ### JWT Authentication
 
 Authentication is token-based using JSON Web Tokens (JWT). When a user registers or logs in:
+
 1. A JWT is minted containing the user identity payload:
    ```json
    {
@@ -269,6 +276,7 @@ Authentication is token-based using JSON Web Tokens (JWT). When a user registers
 > The authentication middleware (`src/middlewares/auth.middleware.ts`) extracts credentials exclusively from `req.cookies?.authSessionToken`. It **does not** read `Authorization: Bearer <token>` headers. All authenticated API requests must supply the session cookie.
 
 When the `authenticate` middleware processes a request:
+
 - It checks for the existence of `authSessionToken` in cookies.
 - It cryptographically verifies the token using `JWT_SECRET`.
 - It loads the user from the database to ensure the account exists and `isActive === true`.
@@ -277,6 +285,7 @@ When the `authenticate` middleware processes a request:
 ### Role-Based Access Control (RBAC)
 
 Two user roles are defined in `src/constants/roles.constants.ts`:
+
 - `customer`: Default role assigned upon registration. Can manage own profile, view active products/categories, place orders, view own order history, and cancel eligible orders.
 - `admin`: Elevated privileges. Can manage all users, toggle user statuses, create/update/delete categories and products, view inactive products, view all customer orders, and update order fulfillment statuses.
 
@@ -291,6 +300,7 @@ All routes are mounted under the `/api/v1` base prefix.
 ### Common Response Schema
 
 #### Success Response (`sendSuccess`)
+
 ```json
 {
   "success": true,
@@ -300,6 +310,7 @@ All routes are mounted under the `/api/v1` base prefix.
 ```
 
 #### Error Response (`errorHandler`)
+
 ```json
 {
   "success": false,
@@ -319,6 +330,7 @@ All routes are mounted under the `/api/v1` base prefix.
 ### System & Health
 
 #### `GET /api/v1/health`
+
 - **Access**: Public
 - **Description**: Returns system health status and uptime.
 - **Expected Status**: `200 OK`
@@ -340,14 +352,15 @@ All routes are mounted under the `/api/v1` base prefix.
 
 Base path: `/api/v1/auth`
 
-| Method | Endpoint | Access | Required Role | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `POST` | `/api/v1/auth/register` | Public | None | Register a new customer account |
-| `POST` | `/api/v1/auth/login` | Public | None | Authenticate user and issue cookie |
-| `POST` | `/api/v1/auth/logout` | Public | None | Invalidate session by clearing cookie |
-| `GET` | `/api/v1/auth/me` | Authenticated | Any (`customer`, `admin`) | Get current session user info |
+| Method | Endpoint                | Access        | Required Role             | Description                           |
+| :----- | :---------------------- | :------------ | :------------------------ | :------------------------------------ |
+| `POST` | `/api/v1/auth/register` | Public        | None                      | Register a new customer account       |
+| `POST` | `/api/v1/auth/login`    | Public        | None                      | Authenticate user and issue cookie    |
+| `POST` | `/api/v1/auth/logout`   | Public        | None                      | Invalidate session by clearing cookie |
+| `GET`  | `/api/v1/auth/me`       | Authenticated | Any (`customer`, `admin`) | Get current session user info         |
 
 #### 1. Register User
+
 - **Endpoint**: `POST /api/v1/auth/register`
 - **Request Body**:
   ```json
@@ -377,6 +390,7 @@ Base path: `/api/v1/auth`
 - **Errors**: `400 Bad Request` (validation failure), `409 Conflict` (user already exists).
 
 #### 2. User Login
+
 - **Endpoint**: `POST /api/v1/auth/login`
 - **Request Body**:
   ```json
@@ -400,6 +414,7 @@ Base path: `/api/v1/auth`
 - **Errors**: `401 Unauthorized` (invalid credentials), `403 Forbidden` (account inactive).
 
 #### 3. User Logout
+
 - **Endpoint**: `POST /api/v1/auth/logout`
 - **Response (`200 OK`)**:
   ```json
@@ -411,6 +426,7 @@ Base path: `/api/v1/auth`
   ```
 
 #### 4. Current Session Info
+
 - **Endpoint**: `GET /api/v1/auth/me`
 - **Authentication**: Required (`authSessionToken` cookie)
 - **Response (`200 OK`)**:
@@ -435,15 +451,16 @@ Base path: `/api/v1/auth`
 
 Base path: `/api/v1/users` (All endpoints require authentication)
 
-| Method | Endpoint | Access | Required Role | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `GET` | `/api/v1/users/profile` | Authenticated | `customer`, `admin` | View own user profile |
-| `PATCH` | `/api/v1/users/profile` | Authenticated | `customer`, `admin` | Update own profile (name, email) |
-| `GET` | `/api/v1/users` | Authenticated | `admin` | List all users with pagination |
-| `GET` | `/api/v1/users/:userId` | Authenticated | `admin` | View specific user details |
-| `PATCH` | `/api/v1/users/:userId/status` | Authenticated | `admin` | Activate or deactivate user account |
+| Method  | Endpoint                       | Access        | Required Role       | Description                         |
+| :------ | :----------------------------- | :------------ | :------------------ | :---------------------------------- |
+| `GET`   | `/api/v1/users/profile`        | Authenticated | `customer`, `admin` | View own user profile               |
+| `PATCH` | `/api/v1/users/profile`        | Authenticated | `customer`, `admin` | Update own profile (name, email)    |
+| `GET`   | `/api/v1/users`                | Authenticated | `admin`             | List all users with pagination      |
+| `GET`   | `/api/v1/users/:userId`        | Authenticated | `admin`             | View specific user details          |
+| `PATCH` | `/api/v1/users/:userId/status` | Authenticated | `admin`             | Activate or deactivate user account |
 
 #### 1. Get Profile
+
 - **Endpoint**: `GET /api/v1/users/profile`
 - **Response (`200 OK`)**:
   ```json
@@ -459,6 +476,7 @@ Base path: `/api/v1/users` (All endpoints require authentication)
   ```
 
 #### 2. Update Profile
+
 - **Endpoint**: `PATCH /api/v1/users/profile`
 - **Request Body** (at least one field required):
   ```json
@@ -482,6 +500,7 @@ Base path: `/api/v1/users` (All endpoints require authentication)
 - **Errors**: `400 Bad Request` (no fields provided), `409 Conflict` (email already in use).
 
 #### 3. List All Users (Admin)
+
 - **Endpoint**: `GET /api/v1/users`
 - **Query Parameters**:
   - `role`: Optional filter (`admin` | `customer`).
@@ -512,6 +531,7 @@ Base path: `/api/v1/users` (All endpoints require authentication)
   ```
 
 #### 4. Get User By ID (Admin)
+
 - **Endpoint**: `GET /api/v1/users/:userId`
 - **Response (`200 OK`)**:
   ```json
@@ -531,6 +551,7 @@ Base path: `/api/v1/users` (All endpoints require authentication)
 - **Errors**: `404 Not Found` (user does not exist).
 
 #### 5. Update User Status (Admin)
+
 - **Endpoint**: `PATCH /api/v1/users/:userId/status`
 - **Request Body**:
   ```json
@@ -556,16 +577,17 @@ Base path: `/api/v1/users` (All endpoints require authentication)
 
 Base path: `/api/v1/categories`
 
-| Method | Endpoint | Access | Required Role | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `GET` | `/api/v1/categories/tree` | Public | None | Retrieve nested hierarchical category tree |
-| `GET` | `/api/v1/categories` | Public | None | Retrieve all categories (flat array sorted by name) |
-| `POST` | `/api/v1/categories` | Authenticated | `admin` | Create a new root or child category |
-| `GET` | `/api/v1/categories/:categoryId` | Public | None | Get category details by ID |
-| `PATCH` | `/api/v1/categories/:categoryId` | Authenticated | `admin` | Update category attributes or reparent |
-| `DELETE` | `/api/v1/categories/:categoryId` | Authenticated | `admin` | Delete category (blocked if children or products exist) |
+| Method   | Endpoint                         | Access        | Required Role | Description                                             |
+| :------- | :------------------------------- | :------------ | :------------ | :------------------------------------------------------ |
+| `GET`    | `/api/v1/categories/tree`        | Public        | None          | Retrieve nested hierarchical category tree              |
+| `GET`    | `/api/v1/categories`             | Public        | None          | Retrieve all categories (flat array sorted by name)     |
+| `POST`   | `/api/v1/categories`             | Authenticated | `admin`       | Create a new root or child category                     |
+| `GET`    | `/api/v1/categories/:categoryId` | Public        | None          | Get category details by ID                              |
+| `PATCH`  | `/api/v1/categories/:categoryId` | Authenticated | `admin`       | Update category attributes or reparent                  |
+| `DELETE` | `/api/v1/categories/:categoryId` | Authenticated | `admin`       | Delete category (blocked if children or products exist) |
 
 #### 1. Get Category Tree
+
 - **Endpoint**: `GET /api/v1/categories/tree`
 - **Response (`200 OK`)**:
   ```json
@@ -599,6 +621,7 @@ Base path: `/api/v1/categories`
   ```
 
 #### 2. Create Category (Admin)
+
 - **Endpoint**: `POST /api/v1/categories`
 - **Request Body**:
   ```json
@@ -608,7 +631,7 @@ Base path: `/api/v1/categories`
     "parent": "6732f111c9e4b78912345601"
   }
   ```
-  *(Omit `parent` or pass `null` to create a top-level category)*
+  _(Omit `parent` or pass `null` to create a top-level category)_
 - **Response (`201 Created`)**:
   ```json
   {
@@ -630,6 +653,7 @@ Base path: `/api/v1/categories`
   - Returns `409 Conflict` if another category with the same name exists under the same parent (case-insensitive collation).
 
 #### 3. Update Category (Admin)
+
 - **Endpoint**: `PATCH /api/v1/categories/:categoryId`
 - **Request Body**:
   ```json
@@ -643,6 +667,7 @@ Base path: `/api/v1/categories`
   - Case-insensitive duplicate name verification under the target parent.
 
 #### 4. Delete Category (Admin)
+
 - **Endpoint**: `DELETE /api/v1/categories/:categoryId`
 - **Response (`200 OK`)**:
   ```json
@@ -662,17 +687,18 @@ Base path: `/api/v1/categories`
 
 Base path: `/api/v1/products`
 
-| Method | Endpoint | Access | Required Role | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `GET` | `/api/v1/products` | Public | None | List active products with search/filters/pagination |
-| `GET` | `/api/v1/products/admin` | Authenticated | `admin` | List all products (active and inactive) |
-| `POST` | `/api/v1/products` | Authenticated | `admin` | Create a new product |
-| `GET` | `/api/v1/products/:productId` | Public | None | Get active product details |
-| `PATCH` | `/api/v1/products/:productId` | Authenticated | `admin` | Update product details |
-| `DELETE` | `/api/v1/products/:productId` | Authenticated | `admin` | Hard delete a product |
-| `PATCH` | `/api/v1/products/:productId/status` | Authenticated | `admin` | Toggle product status (`active` / `inactive`) |
+| Method   | Endpoint                             | Access        | Required Role | Description                                         |
+| :------- | :----------------------------------- | :------------ | :------------ | :-------------------------------------------------- |
+| `GET`    | `/api/v1/products`                   | Public        | None          | List active products with search/filters/pagination |
+| `GET`    | `/api/v1/products/admin`             | Authenticated | `admin`       | List all products (active and inactive)             |
+| `POST`   | `/api/v1/products`                   | Authenticated | `admin`       | Create a new product                                |
+| `GET`    | `/api/v1/products/:productId`        | Public        | None          | Get active product details                          |
+| `PATCH`  | `/api/v1/products/:productId`        | Authenticated | `admin`       | Update product details                              |
+| `DELETE` | `/api/v1/products/:productId`        | Authenticated | `admin`       | Hard delete a product                               |
+| `PATCH`  | `/api/v1/products/:productId/status` | Authenticated | `admin`       | Toggle product status (`active` / `inactive`)       |
 
 #### 1. List Products (Public)
+
 - **Endpoint**: `GET /api/v1/products`
 - **Access**: Public (returns **active** products only)
 - **Query Parameters**:
@@ -716,6 +742,7 @@ Base path: `/api/v1/products`
   ```
 
 #### 2. Create Product (Admin)
+
 - **Endpoint**: `POST /api/v1/products`
 - **Request Body**:
   ```json
@@ -737,11 +764,13 @@ Base path: `/api/v1/products`
   - `stock`: Non-negative integer.
 
 #### 3. Update Product (Admin)
+
 - **Endpoint**: `PATCH /api/v1/products/:productId`
 - **Request Body**: Partial product fields (`name`, `sku`, `description`, `price`, `salePrice`, `stock`, `category`).
 - **Response (`200 OK`)**: Updated product document.
 
 #### 4. Update Product Status (Admin)
+
 - **Endpoint**: `PATCH /api/v1/products/:productId/status`
 - **Request Body**:
   ```json
@@ -757,16 +786,17 @@ Base path: `/api/v1/products`
 
 Base path: `/api/v1/orders` (All endpoints require authentication)
 
-| Method | Endpoint | Access | Required Role | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `POST` | `/api/v1/orders` | Authenticated | `customer` | Place an order (ACID transaction & stock deduction) |
-| `GET` | `/api/v1/orders/my-orders` | Authenticated | `customer` | View own order history |
-| `GET` | `/api/v1/orders` | Authenticated | `admin` | View all customer orders (populated with user) |
-| `GET` | `/api/v1/orders/:orderId` | Authenticated | `customer`, `admin` | View specific order (customer ownership checked) |
-| `PATCH` | `/api/v1/orders/:orderId/status` | Authenticated | `admin` | Advance order status along linear lifecycle |
-| `PATCH` | `/api/v1/orders/:orderId/cancel` | Authenticated | `customer` | Cancel order & restore inventory stock |
+| Method  | Endpoint                         | Access        | Required Role       | Description                                         |
+| :------ | :------------------------------- | :------------ | :------------------ | :-------------------------------------------------- |
+| `POST`  | `/api/v1/orders`                 | Authenticated | `customer`          | Place an order (ACID transaction & stock deduction) |
+| `GET`   | `/api/v1/orders/my-orders`       | Authenticated | `customer`          | View own order history                              |
+| `GET`   | `/api/v1/orders`                 | Authenticated | `admin`             | View all customer orders (populated with user)      |
+| `GET`   | `/api/v1/orders/:orderId`        | Authenticated | `customer`, `admin` | View specific order (customer ownership checked)    |
+| `PATCH` | `/api/v1/orders/:orderId/status` | Authenticated | `admin`             | Advance order status along linear lifecycle         |
+| `PATCH` | `/api/v1/orders/:orderId/cancel` | Authenticated | `customer`          | Cancel order & restore inventory stock              |
 
 #### 1. Create Order (Checkout)
+
 - **Endpoint**: `POST /api/v1/orders`
 - **Role**: `customer`
 - **Request Body**:
@@ -834,19 +864,23 @@ Base path: `/api/v1/orders` (All endpoints require authentication)
 - **Errors**: `400 Bad Request` (inactive product or insufficient stock), `404 Not Found` (product ID does not exist).
 
 #### 2. Get My Orders (Customer)
+
 - **Endpoint**: `GET /api/v1/orders/my-orders`
 - **Response (`200 OK`)**: Array of orders belonging to the authenticated customer, sorted newest first.
 
 #### 3. Get All Orders (Admin)
+
 - **Endpoint**: `GET /api/v1/orders`
 - **Response (`200 OK`)**: List of all orders with populated `user: { name, email }`.
 
 #### 4. Get Order By ID
+
 - **Endpoint**: `GET /api/v1/orders/:orderId`
 - **Authorization**: Admins can view any order. Customers can only view orders where `user === req.user.id`.
 - **Errors**: `404 Not Found` if order does not exist or does not belong to the user.
 
 #### 5. Update Order Status (Admin)
+
 - **Endpoint**: `PATCH /api/v1/orders/:orderId/status`
 - **Request Body**:
   ```json
@@ -865,6 +899,7 @@ Base path: `/api/v1/orders` (All endpoints require authentication)
 - **Errors**: `400 Bad Request` if attempting an invalid jump (e.g. `pending` &rarr; `delivered`).
 
 #### 6. Cancel Order (Customer)
+
 - **Endpoint**: `PATCH /api/v1/orders/:orderId/cancel`
 - **Logic**:
   - The order must belong to the authenticated customer.
@@ -905,7 +940,7 @@ The database uses MongoDB with Mongoose schemas enforcing constraints, compound 
    - `category`: `ObjectId` referencing `Category`.
    - `status`: Enum `['active', 'inactive']`, default: `'active'`.
    - **Index**: `{ category: 1 }`.
-   - *(Note: `images` array is defined in validation schemas but commented out in the Mongoose schema).*
+   - _(Note: `images` array is defined in validation schemas but commented out in the Mongoose schema)._
 
 4. **`orders`**:
    - `user`: `ObjectId` referencing `User`.
@@ -915,7 +950,9 @@ The database uses MongoDB with Mongoose schemas enforcing constraints, compound 
    - `status`: Enum `['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled']`.
    - **Index**: Compound index `{ user: 1, createdAt: -1 }`.
 
-### Mermaid Entity-Relationship Diagram
+### Entity-Relationship Diagram
+
+![Database ER Diagram](./docs/Order%20Commerce%20Data%20Model-2026-11-12-045615.svg)
 
 ```mermaid
 erDiagram
@@ -997,6 +1034,7 @@ erDiagram
 ### Request Validation Layer
 
 Incoming request validation is orchestrated through `validate(schema, location)` (`src/middlewares/validate.middleware.ts`), where `location` can be `'body'`, `'query'`, or `'params'`.
+
 - Uses Zod schemas to parse and strip unwanted inputs.
 - Validated output is populated on `req.validated[location]`.
 - Controller actions read strictly from `req.validated`.
