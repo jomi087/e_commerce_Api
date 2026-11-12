@@ -33,6 +33,13 @@ export const ERROR_MESSAGES = {
   USER_NOT_FOUND: 'User not found',
   USER_EXISTS: 'User already exists',
 
+  //category
+  CATEGORY_NOT_FOUND: 'Category not found',
+  CATEGORY_PARENT_NOT_FOUND: 'Parent category not found',
+  CATEGORY_EXISTS: 'Category with this name already exists under this parent',
+  CATEGORY_CIRCULAR_REFERENCE: 'Circular category relationship is not allowed',
+  CATEGORY_HAS_CHILDREN: 'Cannot delete a category that has child categories',
+
   //common
   INTERNAL_SERVER_ERROR: 'Internal server error',
   SOMETHING_WENT_WRONG: 'Something went wrong',

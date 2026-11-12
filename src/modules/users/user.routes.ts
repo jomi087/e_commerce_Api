@@ -29,19 +29,9 @@ router
 
 // Admin-only routes
 
-router.get(
-  '/',
-  authorize(USER_ROLES.ADMIN),
-  validate(getAllUsersQuerySchema, 'query'),
-  userController.getAllUsers
-);
+router.get('/', authorize(USER_ROLES.ADMIN), validate(getAllUsersQuerySchema, 'query'), userController.getAllUsers);
 
-router.get(
-  '/:userId',
-  authorize(USER_ROLES.ADMIN),
-  validate(userIdSchema, 'params'),
-  userController.getUserById
-);
+router.get('/:userId', authorize(USER_ROLES.ADMIN), validate(userIdSchema, 'params'), userController.getUserById);
 
 router.patch(
   '/:userId/status',
